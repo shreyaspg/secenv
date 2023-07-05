@@ -1,8 +1,6 @@
 pub mod init;
-pub mod set;
-
+pub mod profile;
 
 pub trait Command {
-    fn execute(){}
-    fn help(){}
+    fn execute(&self)->();
 }

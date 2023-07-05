@@ -1,6 +1,7 @@
-use clap::{Parser, Subcommand, Args};
+use clap::{Parser, Subcommand };
 
-use crate::commands::set::Set;
+use crate::commands::Command;
+use crate::commands::profile::Profile;
 use crate::commands::init::Init;
 
 #[derive(Parser)]
@@ -13,7 +14,7 @@ pub struct SecEnv {
 #[derive(Subcommand, Debug)]
 enum Commands {
     Init(Init),
-    Set(Set),
+    Profile(Profile),
 }
 
 pub struct App;
@@ -22,11 +23,11 @@ impl App {
     pub fn run(cli : SecEnv) {
         if let Some(command) = cli.command {
                 match command{
-                    Commands::Init(path) => {
-                        println!("Running init command {:?}", path )
+                    Commands::Init(init_command) => {
+                        init_command.execute();
                     },
-                    Commands::Set(profile) => {
-                        println!("Running set command {:?}", profile )
+                    Commands::Profile(profile_command) => {
+                        profile_command.execute();
                     },
                 }
         } else {
