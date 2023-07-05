@@ -5,30 +5,27 @@ use super::Command;
 #[derive(Args, Debug)]
 pub struct Profile {
     #[command(subcommand)]
-    profile_command: Option<ProfileSubCommand>,
-
-    name: Option<String>,
-    
+    pub profile_sub_command: Option<ProfileSubCommand>,
 }
 
 #[derive(Subcommand, Debug)]
-enum ProfileSubCommand {
+pub enum ProfileSubCommand {
     Set(SetArgs),
 
     Unset(UnsetArgs),
 }
 
 #[derive(Args, Debug)]
-struct SetArgs{
+pub struct SetArgs{
     name: Option<String>,
 }
 
 #[derive(Args, Debug)]
-struct UnsetArgs{
+pub struct UnsetArgs{
     name: Option<String>,
 }
 
-impl Command for Profile{
+impl Command for ProfileSubCommand{
     fn execute(&self)->() {
         // let mut profile_name = self.name.as_ref().expect("No profile name passed");
         // if let Some(name) = &self.name{

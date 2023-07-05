@@ -22,16 +22,18 @@ pub struct App;
 impl App {
     pub fn run(cli : SecEnv) {
         if let Some(command) = cli.command {
-                match command{
-                    Commands::Init(init_command) => {
-                        init_command.execute();
-                    },
-                    Commands::Profile(profile_command) => {
-                        profile_command.execute();
-                    },
-                }
+            match command{
+                Commands::Init(init_command) => {
+                    init_command.execute();
+                },
+                Commands::Profile(profile) => {
+                    profile.profile_sub_command
+                        .expect("subcommand missing ")
+                        .execute();
+                },
+            }
         } else {
-                panic!("No command passed")
+            panic!("No command passed")
         }
     }
 }
