@@ -1,9 +1,14 @@
-mod application;
-use clap::Parser;
-use crate::application::{SecEnv, App};
+pub mod prelude;
+pub mod application;
+pub mod commands;
 
-fn main() {
+use std::process::ExitCode;
+use clap::Parser;
+use crate::prelude::*;
+
+fn main()-> ExitCode {
     let cli = SecEnv::parse();
-    App::run(cli)
+    App::run(cli);
+    ExitCode::from(0)
 }
 
