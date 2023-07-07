@@ -27,7 +27,7 @@ impl App {
                     init_command.execute();
                 },
                 Commands::Profile(profile) => {
-                    profile.profile_sub_command
+                    profile.profile_subcommand
                         .expect("subcommand missing ")
                         .execute();
                 },

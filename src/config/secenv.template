@@ -1,0 +1,14 @@
+# DO NOT REMOVE #
+[profiles]
+# DO NOT REMOVE #
+
+# Create a profile using [profiles.<new profile name>]
+[profiles.local]
+# Create env variables using the format key = "<value>"
+env1 = "val1"
+
+
+[profiles.aws]
+env1 = "val1"
+env2 = "val2"
+
