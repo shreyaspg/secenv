@@ -1,15 +1,14 @@
-pub mod prelude;
 pub mod application;
 pub mod commands;
 pub mod config;
+pub mod prelude;
 
-use std::process::ExitCode;
-use clap::Parser;
 use crate::prelude::*;
+use clap::Parser;
+use std::process::ExitCode;
 
-fn main()-> ExitCode {
+fn main() -> ExitCode {
     let cli = SecEnv::parse();
     App::run(cli);
     ExitCode::from(0)
 }
-

@@ -1,7 +1,5 @@
-use std::fs::read_to_string;
+use super::{ get_profile_config, Command, get_profile};
 use clap::{Args, Subcommand};
-use toml::Table;
-use super::{Command, does_config_exist};
 
 #[derive(Args, Debug)]
 pub struct Profile {
@@ -17,16 +15,16 @@ pub enum ProfileSubCommand {
 }
 
 #[derive(Args, Debug)]
-pub struct SetArgs{
+pub struct SetArgs {
     name: Option<String>,
 }
 
 #[derive(Args, Debug)]
-pub struct UnsetArgs{
+pub struct UnsetArgs {
     name: Option<String>,
 }
-impl Command for ProfileSubCommand{
-    fn execute(&self)->() {
+impl Command for ProfileSubCommand {
+    fn execute(&self) -> () {
         match self {
             Self::List => {
                 list_command();
@@ -34,20 +32,15 @@ impl Command for ProfileSubCommand{
             Self::Set(set_args) => {
                 set_command(set_args);
             }
-            Self::Unset(_) => {
-                unset_command();
+            Self::Unset(unset_args) => {
+                unset_command(unset_args);
             }
         }
     }
 }
 
 fn list_command() {
-    let config_path = does_config_exist();
-    let file = match read_to_string(config_path) {
-        Ok(content) => content,
-        Err(e) => panic!("{}",e)
-    };
-    let cfg: Table = file.parse().expect("Error getting config");
+    let cfg = get_profile_config();
     let cfg_profiles = &cfg["profiles"];
     if let toml::Value::Table(t) = cfg_profiles {
         for (key, _) in t {
@@ -57,18 +50,14 @@ fn list_command() {
 }
 
 fn set_command(args: &SetArgs) {
-    let config_path = does_config_exist();
-    let file = match read_to_string(config_path) {
-        Ok(content) => content,
-        Err(e) => panic!("{}",e)
-    };
-
-    let cfg: Table = file.parse().expect("Error getting config");
-    let profile = args.name.clone().expect("No profile name found");
-    println!("setting{}", cfg["profiles"][profile]);
+    let cfg = get_profile_config();
+    let profile_name = args.name.clone().expect("No profile name found");
+    let profile = get_profile(cfg, &*profile_name).unwrap();
+    println!("setting{}", profile);
 }
-fn unset_command() {
-    let _config_path = does_config_exist();
+fn unset_command(args: &UnsetArgs) {
+    let cfg = get_profile_config();
+    let profile_name = args.name.clone().expect("No profile name found");
+    let profile = get_profile(cfg, &*profile_name).unwrap();
+    println!("setting{}", profile);
 }
-
-
