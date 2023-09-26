@@ -1,4 +1,4 @@
-.PHONY: build build-dev
+.PHONY: build 
 build: build-dev
 
 build-dev:
