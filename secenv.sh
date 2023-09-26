@@ -1,5 +1,5 @@
 #!/bin/bash
-# set -x
+set -x
 #get args passed to script
 args=("$@")
 
